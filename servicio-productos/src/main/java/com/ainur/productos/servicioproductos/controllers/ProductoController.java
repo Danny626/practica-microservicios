@@ -7,6 +7,7 @@ import com.ainur.productos.servicioproductos.models.entity.Producto;
 import com.ainur.productos.servicioproductos.models.service.IProductoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,9 @@ public class ProductoController {
     @Autowired
     private Environment env;
 
+    @Value("${server.port}")
+    private Integer port;
+
     @Autowired
     private IProductoService productoService;
 
@@ -25,6 +29,7 @@ public class ProductoController {
     public List<Producto> Listar() {
         return productoService.findAll().stream().map(p -> {
             p.setPort(Integer.parseInt(this.env.getProperty("local.server.port")));
+            // p.setPort(port);
             return p;
         }).collect(Collectors.toList());
     }
@@ -33,6 +38,7 @@ public class ProductoController {
     public Producto detalle(@PathVariable Long id) {
         Producto producto = this.productoService.findById(id);
         producto.setPort(Integer.parseInt(this.env.getProperty("local.server.port")));
+        // producto.setPort(port);
         return producto;
     }
     
