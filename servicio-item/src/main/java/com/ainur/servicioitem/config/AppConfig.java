@@ -14,6 +14,7 @@ import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 public class AppConfig {
 
     // configuración para cada corto circuito, en este caso solo tenemos uno
+    // se puede configurar el resilience aqui o en el application.yml
     @Bean
     public Customizer<Resilience4JCircuitBreakerFactory> defaultCustomizer() {
         return factory -> factory.configureDefault(id -> {
@@ -27,8 +28,14 @@ public class AppConfig {
                     .waitDurationInOpenState(Duration.ofSeconds(10L))
                     // cantidad de requests en estado semiabierto
                     .permittedNumberOfCallsInHalfOpenState(5)
+                    // porcentaje del umbral de llamadas lentas
+                    .slowCallRateThreshold(50)
+                    .slowCallDurationThreshold(Duration.ofSeconds(2L))
                     .build())
-                .timeLimiterConfig(TimeLimiterConfig.ofDefaults())
+                // tiempo de espera a una request antes de lanzar timeout 1 seg por defecto
+                // .timeLimiterConfig(TimeLimiterConfig.ofDefaults())
+                // tiempo de espera timeout personalizado a 2 seg
+                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(6L)).build())
                 .build();
         });
     }
