@@ -56,7 +56,7 @@ public class ItemController {
     // con TimeLimiter controlamos el circuitBreaker de timeout
     // CompletableFuture es para manejo de llamadas asincronas
     @CircuitBreaker(name = "items", fallbackMethod = "metodoAlternativo2")
-    @TimeLimiter(name = "items", fallbackMethod = "metodoAlternativo2")
+    @TimeLimiter(name = "items")
     @GetMapping("/ver3/{id}/cantidad/{cantidad}")
     public CompletableFuture<Item> detalle3(@PathVariable Long id, @PathVariable Integer cantidad) {
         return CompletableFuture.supplyAsync(() -> this.itemService.findById(id, cantidad));
