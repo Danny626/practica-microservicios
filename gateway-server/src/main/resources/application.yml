@@ -55,7 +55,7 @@ spring:
                 # filtros predefinidos
                 - AddRequestHeader=token-request, 12345678
                 - AddResponseHeader=token-response, 123
-                - SetResponseHeader=Content-Type, text/plain
+                # - SetResponseHeader=Content-Type, text/plain
                 - AddRequestParameter=nombre, andres
 server:
     port: 8090

@@ -27,5 +27,18 @@ public class ProductoServiceImpl implements IProductoService {
     public Producto findById(Long id) {
         return productoRepository.findById(id).orElse(null);
     }
+
+    @Override
+    @Transactional
+    public Producto save(Producto producto) {
+        return this.productoRepository.save(producto);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        this.productoRepository.deleteById(id);
+        
+    }
     
 }
