@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import com.ainur.servicioitem.models.Item;
-import com.ainur.servicioitem.models.Producto;
+import com.ainur.serviciocommons.models.Producto;
 import com.ainur.servicioitem.service.IItemService;
 
 import org.slf4j.Logger;

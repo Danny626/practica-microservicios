@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import com.ainur.servicioitem.clientes.IProductoClienteRest;
 import com.ainur.servicioitem.models.Item;
-import com.ainur.servicioitem.models.Producto;
+import com.ainur.serviciocommons.models.Producto;
 import com.ainur.servicioitem.service.IItemService;
 
 import org.springframework.beans.factory.annotation.Autowired;

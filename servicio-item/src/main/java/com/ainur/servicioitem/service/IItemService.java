@@ -3,7 +3,7 @@ package com.ainur.servicioitem.service;
 import java.util.List;
 
 import com.ainur.servicioitem.models.Item;
-import com.ainur.servicioitem.models.Producto;
+import com.ainur.serviciocommons.models.Producto;
 
 public interface IItemService {
 

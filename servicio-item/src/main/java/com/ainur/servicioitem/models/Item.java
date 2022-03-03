@@ -1,5 +1,7 @@
 package com.ainur.servicioitem.models;
 
+import com.ainur.serviciocommons.models.Producto;
+
 public class Item {
 
     private Producto producto;
