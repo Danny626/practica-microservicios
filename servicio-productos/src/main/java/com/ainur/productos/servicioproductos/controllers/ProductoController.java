@@ -3,7 +3,8 @@ package com.ainur.productos.servicioproductos.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ainur.productos.servicioproductos.models.entity.Producto;
+// import com.ainur.productos.servicioproductos.models.entity.Producto;
+import com.ainur.serviciocommons.models.Producto;
 import com.ainur.productos.servicioproductos.models.service.IProductoService;
 
 import org.springframework.beans.factory.annotation.Autowired;

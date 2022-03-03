@@ -2,7 +2,8 @@ package com.ainur.productos.servicioproductos.models.implementations;
 
 import java.util.List;
 
-import com.ainur.productos.servicioproductos.models.entity.Producto;
+// import com.ainur.productos.servicioproductos.models.entity.Producto;
+import com.ainur.serviciocommons.models.Producto;
 import com.ainur.productos.servicioproductos.models.repository.IProductoRepository;
 import com.ainur.productos.servicioproductos.models.service.IProductoService;
 

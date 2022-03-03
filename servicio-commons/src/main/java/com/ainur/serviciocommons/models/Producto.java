@@ -1,4 +1,4 @@
-package com.ainur.productos.servicioproductos.models.entity;
+package com.ainur.serviciocommons.models;
 
 import java.io.Serializable;
 import java.util.Date;
