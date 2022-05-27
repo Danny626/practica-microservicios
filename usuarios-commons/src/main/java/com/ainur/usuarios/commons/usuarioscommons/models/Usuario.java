@@ -35,6 +35,8 @@ public class Usuario implements Serializable {
     @Column(unique = true, length = 100)
     private String email;
 
+    private Integer intentos;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "usuarios_roles", joinColumns = @JoinColumn(name="usuario_id"), 
@@ -105,6 +107,14 @@ public class Usuario implements Serializable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Integer getIntentos() {
+        return intentos;
+    }
+
+    public void setIntentos(Integer intentos) {
+        this.intentos = intentos;
     }
 
     private static final long serialVersionUID = 4002221912401133094L;

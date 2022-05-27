@@ -7,6 +7,8 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.ainur.usuarios.commons.usuarioscommons.models.Usuario;
 
+// habilita una api rest automática (crud) utilizando Rest Repository de los
+// starters web
 @RepositoryRestResource(path = "usuarios")
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     
@@ -15,5 +17,5 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     // @RestResource personaliza el nombre del método expuesto
     // la exposición tb funciona con métodos @Query
     @RestResource(path = "buscar-username")
-    public Usuario findByUsername(@Param("nombreUsuario") String username);
+    public Usuario findByUsername(@Param("username") String username);
 }

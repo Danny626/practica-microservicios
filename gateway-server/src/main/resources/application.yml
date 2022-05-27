@@ -24,6 +24,8 @@ resilience4j:
 spring:
     application:
         name: servicio-gateway-server
+    config:
+        import: "optional:configserver:"
     cloud:
         gateway:
             routes:
