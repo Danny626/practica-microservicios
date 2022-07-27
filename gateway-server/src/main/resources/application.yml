@@ -1,80 +1,82 @@
 # configuración alternativa
 # esta configuración tiene prioridad sobre la programática
 resilience4j:
-    circuitbreaker:
-        configs:
-            defecto:
-                sliding-window-size: 6
-                failure-rate-threshold: 50
-                wait-duration-in-open-state: 20
-                permitted-number-of-calls-in-half-open-state: 4
-                slow-call-rate-threshold: 50
-                slow-call-duration-threshold: 2s
-        instances:
-            productos:
-                base-config: defecto
-    timelimiter:
-        configs: 
-            defecto:
-                timeout-duration: 2s
-        instances:
-            productos:
-                base-config: defecto
+  circuitbreaker:
+    configs:
+      defecto:
+        sliding-window-size: 6
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 20
+        permitted-number-of-calls-in-half-open-state: 4
+        slow-call-rate-threshold: 50
+        slow-call-duration-threshold: 2s
+    instances:
+      productos:
+        base-config: defecto
+  timelimiter:
+    configs:
+      defecto:
+        timeout-duration: 2s
+    instances:
+      productos:
+        base-config: defecto
 
 spring:
-    application:
-        name: servicio-gateway-server
-    config:
-        import: "optional:configserver:"
-    cloud:
-        gateway:
-            routes:
-            - id: servicio-productos
-              uri: lb://servicio-productos
-              # condiciones o reglas q debe cumplir el request
-              predicates:
-                - Path=/api/productos/**
-                # - Header=token, \d+
-                # - Method=GET, POST
-                # - Query=color, verde
-                # - Cookie=color, azul                
-              filters:
-                # Circuit Breaker para el error 500
-                - name: CircuitBreaker
-                  args:
-                    name: productos
-                    statusCode: 500
-                    fallbackUri: forward:/api/items/ver/9/cantidad/5
-                - StripPrefix=2
-                # llamamos al filtro de la clase EjemploGatewayFilterFactory
-                - EjemploCookie=Hola mi mensaje personalizado, usuario, AndresGuzman
-            - id: servicio-items
-              uri: lb://servicio-items
-              predicates:
-                - Path=/api/items/**                
-              filters:
-                - StripPrefix=2
-                # filtros predefinidos
-                - AddRequestHeader=token-request, 12345678
-                - AddResponseHeader=token-response, 123
-                # - SetResponseHeader=Content-Type, text/plain
-                - AddRequestParameter=nombre, andres
-            - id: servicio-usuarios
-              uri: lb://servicio-usuarios
-              predicates:
-                - Path=/api/usuarios/**                
-              filters:
-                - StripPrefix=2
-            - id: servicio-oauth
-              uri: lb://servicio-oauth
-              predicates:
-                - Path=/api/security/**                
-              filters:
-                - StripPrefix=2
+  application:
+    name: servicio-gateway-server
+  config:
+    import: "optional:configserver:"
+  cloud:
+    gateway:
+      routes:
+        - id: servicio-productos
+          uri: lb://servicio-productos
+          # condiciones o reglas q debe cumplir el request
+          predicates:
+            - Path=/api/productos/**
+            # - Header=token, \d+
+            # - Method=GET, POST
+            # - Query=color, verde
+            # - Cookie=color, azul
+          filters:
+            # Circuit Breaker para el error 500
+            - name: CircuitBreaker
+              args:
+                name: productos
+                statusCode: 500
+                fallbackUri: forward:/api/items/ver/9/cantidad/5
+            - StripPrefix=2
+            # llamamos al filtro de la clase EjemploGatewayFilterFactory
+            - EjemploCookie=Hola mi mensaje personalizado, usuario, AndresGuzman
+        - id: servicio-items
+          uri: lb://servicio-items
+          predicates:
+            - Path=/api/items/**
+          filters:
+            - StripPrefix=2
+            # filtros predefinidos
+            - AddRequestHeader=token-request, 12345678
+            - AddResponseHeader=token-response, 123
+            # - SetResponseHeader=Content-Type, text/plain
+            - AddRequestParameter=nombre, andres
+        - id: servicio-usuarios
+          uri: lb://servicio-usuarios
+          predicates:
+            - Path=/api/usuarios/**
+          filters:
+            - StripPrefix=2
+        - id: servicio-oauth
+          uri: lb://servicio-oauth
+          predicates:
+            - Path=/api/security/**
+          filters:
+            - StripPrefix=2
+  sleuth:
+    sampler:
+      probability: 1.0
 server:
-    port: 8090
+  port: 8090
 eureka:
-    client:
-        service-url:
-            defaultZone: http://localhost:8761/eureka
-    
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

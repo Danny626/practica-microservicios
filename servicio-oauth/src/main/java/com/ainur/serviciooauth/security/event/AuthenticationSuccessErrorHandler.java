@@ -3,6 +3,8 @@ package com.ainur.serviciooauth.security.event;
 import com.ainur.serviciooauth.services.IUsuarioService;
 import com.ainur.usuarios.commons.usuarioscommons.models.Usuario;
 
+import brave.Tracer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 
     @Autowired
     private IUsuarioService usuarioService;
+
+    @Autowired
+    private Tracer tracer;
 
     @Override
     public void publishAuthenticationSuccess(Authentication authentication) {
@@ -52,6 +57,10 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
         log.info(mensaje);
 
         try {
+
+            StringBuilder errors = new StringBuilder();
+            errors.append(mensaje);
+
             Usuario usuario = usuarioService.findByUsername(authentication.getName());
             if ( usuario.getIntentos() == null ) {
                 usuario.setIntentos(0);
@@ -63,12 +72,18 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 
             log.info("Intentos después es de: " + usuario.getIntentos());
 
+            errors.append(" - Intentos del login: " + usuario.getIntentos());
+
             if(usuario.getIntentos() >= 3) {
-                log.error(String.format("El usuario %s des-habilitado por máximos intentos", usuario.getUsername()));
+                String errorMaxIntentos = String.format("El usuario %s des-habilitado por máximos intentos", usuario.getUsername()) ;
+                log.error(errorMaxIntentos);
+                errors.append(" - " + errorMaxIntentos);
                 usuario.setEnabled(false);
             }
 
             usuarioService.update(usuario, usuario.getId());
+
+            tracer.currentSpan().tag("error.mensaje", errors.toString());
 
         } catch (FeignException e) {
             log.error(String.format("El usuario %s no existe en el sistema", authentication.getName()));

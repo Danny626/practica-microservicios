@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import com.ainur.serviciooauth.clients.IUsuarioFeignClient;
 import com.ainur.usuarios.commons.usuarioscommons.models.Usuario;
 
+import brave.Tracer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
     @Autowired
     private IUsuarioFeignClient client;
 
+    @Autowired
+    private Tracer tracer;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -47,6 +52,7 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
             String error = "Error en el login, no existe el usuario '" + username + "' en el sistema";
 			log.error(error);
 
+            tracer.currentSpan().tag("error.mensaje", error + ": " + e.getMessage());
 			throw new UsernameNotFoundException(error);
         }
     }
