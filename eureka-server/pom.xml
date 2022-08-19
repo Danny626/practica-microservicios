@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
+		<nombre.final>eureka-server</nombre.final>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -52,6 +53,7 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>${nombre.final}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
