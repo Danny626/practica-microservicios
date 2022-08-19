@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2021.0.3</spring-cloud.version>
+		<nombre.final>servicio-productos</nombre.final>
 	</properties>
 
 	<dependencies>
@@ -87,6 +88,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${nombre.final}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
